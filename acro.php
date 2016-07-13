@@ -21,7 +21,7 @@ if(isset($_POST['acro'])) {
 	echo "<br />Requested Acronym:";
 	echo $req;
         $client = new GuzzleHttp\Client();
-        $acros = $client->get('http://www.nactem.ac.uk/software/acromine/dictionary.py', ['sf',urlencode($req)]);
+        $acros = $client->get('http://www.nactem.ac.uk/software/acromine/dictionary.py', urlencode({'sf': $req, 'lf': ''}));
 
         //echo "<br />Response Code:<br />";
 	//echo $acros->getStatusCode();                    // response 200
