@@ -13,7 +13,7 @@ if(!isset($_POST['acro'])) {
 }
 
 echo '<h1>Simple Acronym Request Output</h1>';
-echo '<br /><br />'
+echo '<br /><br />';
 
 $acro = $_POST['acro']; // required
 
