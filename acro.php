@@ -12,6 +12,9 @@ if(!isset($_POST['acro'])) {
 	 failed('No valid acronym was submitted, perhaps the field was left blank!');
 }
 
+echo '<h1>Simple Acronym Request Output</h1>';
+echo '<br /><br />'
+
 $acro = $_POST['acro']; // required
 
 $ch = curl_init();
