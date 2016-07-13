@@ -20,19 +20,22 @@ if(isset($_POST['acro'])) {
         $req = $_POST['acro']; // required
 	echo "<br />Requested Acronym:";
 	echo $req;
-        $client = new GuzzleHttp\Client();
-        $acros = $client->get('http://www.nactem.ac.uk/software/acromine/dictionary.py', urlencode({'sf': $req, 'lf': ''}));
 
-        //echo "<br />Response Code:<br />";
-	//echo $acros->getStatusCode();                    // response 200
-        //echo "<br />Encoding:<br />";
-	//echo $acros->getHeader('content-type');                // 'application/json; charset=utf-8'
+	$req = "'sf': $req";  // build request string for short format acronym
+
+        $client = new GuzzleHttp\Client();    // init Guzzle client
+        $acros = $client->get('http://www.nactem.ac.uk/software/acromine/dictionary.py', [urlencode($req)]); // submit encoded request to the Acromine API
+
+        // echo "<br />Response Code:<br />";
+	// echo $acros->getStatusCode();                    // expect response 200
+        // echo "<br />Encoding:<br />";
+	// echo $acros->getHeader('content-type');                // 'application/json; charset=utf-8'
         echo "<br /><br />Long Forms and Frequencies: <br />";
 	$stream = $acros->getBody();                         // sf lf
-	echo $stream->getContents();
-        //echo json_decode($acros->getBody(), true);                     // Output the JSON decoded data
+	echo (string) $stream->getContents();
+        // echo (string) json_decode($stream->getContents(), true);                     // Output the JSON decoded data
 ?>
-        <!-- Closing Remarks -->
+        <!-- Closing Remark -->
         <br /><br /> Thanks for using this simple Acromine client by Josh Pelz!
 
 <?php
