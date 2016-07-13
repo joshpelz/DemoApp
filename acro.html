@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>A client sample in JavaScript with prototype.js</title>
+<script type="text/javascript" src="prototype.js"></script>
+<script type="text/javascript"><!--
+function update(transport)
+{
+    // Convert the JSON string into the JavaScript object.
+    var ret = eval('(' + transport.responseText + ')');
+
+    // Show the object in HTML.
+    var out = '<ul>';
+    for (var i = 0;i < ret.length;++i) {
+        out += '<li>' + 'sf: ' + ret[i].sf;
+        out += '<ul>';
+        for (var j = 0;j < ret[i].lfs.length;++j) {
+            var lf = ret[i].lfs[j];
+            out += '<li>'
+                   + '  lf: ' + lf.lf
+                   + ', freq: ' + lf.freq
+                   + ', since: ' + lf.since;
+            out += '<ul>';
+            for (var k = 0;k < lf.vars.length;++k) {
+                out += '<li>'
+                       + '  lf: ' + lf.vars[k].lf
+                       + ', freq: ' + lf.vars[k].freq
+                       + ', since: ' + lf.vars[k].since;
+                       + '</li>';
+            }
+            out += '</ul>';
+            out += '</li>';
+        }
+        out += '</ul>';
+    }
+    out += '</ul>';
+
+    $('output').innerHTML = out;
+}
+
+function retrieve()
+{
+    // Query.
+    var shortform = <?php echo $_POST['acro'] ?>;;
+    var longform = '';
+
+    // Show the current status.
+    $('output').innerHTML =
+          'Issuing a query...<br/>'
+        + '(sf, lf) = ("' + shortform + '", "' + longform + '")';
+
+    // Issue an AJAX request.
+    var a = new Ajax.Request(
+        'http://www.nactem.ac.uk/software/acromine/dictionary.py',
+        {
+            method:'get',
+            parameters: $H({sf: shortform, lf: longform}).toQueryString(),
+            onSuccess: update,
+            onFailure: function(){ alert('Failed to connect to the service.') }
+        });
+}
+--></script>
+</head>
+<body onload="retrieve();">
+<p>
+A client sample in JavaScript with prototype.js
+</p>
+<div id="output"></div>
+</body>
+</html>
