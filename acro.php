@@ -1,7 +1,5 @@
 <?php
 
-require 'vendor/autoload.php';
-
 function failed($error) {
         // custom error code
         echo "The request was not a valid acronym, or no results were found.";
