@@ -29,8 +29,3 @@ echo (string) json_decode($output);                     // Output the JSON tidy 
         <!-- Closing Remarks -->
         <br /><br /> Thanks for using this simple Acromine client by Josh Pelz!
 
-<?php
-
-}
-
-?>
