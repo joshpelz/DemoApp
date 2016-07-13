@@ -14,29 +14,17 @@ if(!isset($_POST['acro'])) {
 	 failed('No valid acronym was submitted, perhaps the field was left blank!');
 }
 
-$url = 'http://www.nactem.ac.uk/software/acromine/dictionary.py';
 $acro = $_POST['acro']; // required
-echo "<br />Requested Acronym:";
-echo $acro;
 
-$req = 'http://www.nactem.ac.uk/software/acromine/dictionary.py'
-$req .= '?sf='
-$req .= $acro
-$req .= '?lf='
-$send = curl_init($req);
-$result = curl_exec($send)
-echo json_decode($result)
-
-        $client = new GuzzleHttp\Client();    // init Guzzle client
-        $acros = $client->get('http://www.nactem.ac.uk/software/acromine/dictionary.py', array('sf' => $acro)); // encode request parameters and submit to Acromine API
-        echo "<br />Response Code:<br />";
-	echo $acros->getStatusCode();                    // response 200
-        echo "<br />Encoding:<br />";
-	echo $acros->getHeader('content-type');                // 'application/json; charset=utf-8'
-        echo "<br /><br />Long Forms and Frequencies: <br />";
-	$stream = $acros->getBody();                         // sf lf
-	echo (string) $stream->getContents();
-        // echo (string) json_decode($stream->getContents(), true);                     // Output the JSON decoded data
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://www.nactem.ac.uk/software/acromine/dictionary.py');
+curl_setopt($ch, CURLOPT_POSTFIELDS, array('sf' => $acro));
+$result = curl_exec($ch);
+curl_close($ch);
+echo indent($result);
+$output = json_decode($result, true);
+// print_r($output, true);;
+echo (string) json_decode($output);                     // Output the JSON tidy data
 ?>
         <!-- Closing Remarks -->
         <br /><br /> Thanks for using this simple Acromine client by Josh Pelz!
